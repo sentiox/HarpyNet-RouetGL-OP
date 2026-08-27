@@ -3,6 +3,7 @@ set -eu
 
 RELEASE_REPO="${HARPYNET_RELEASE_REPO:-sentiox/HarpyNet-RouetGL-OP}"
 API_URL="https://api.github.com/repos/$RELEASE_REPO/releases/latest"
+METADATA_URL="https://raw.githubusercontent.com/$RELEASE_REPO/main/release.json"
 WORKDIR="/tmp/harpynet-public-install.$$"
 UI_REQUEST="${HARPYNET_UI:-auto}"
 UI_KIND=""
@@ -20,12 +21,20 @@ trap cleanup EXIT INT TERM
 download() {
 	local url="$1" out="$2"
 	if command -v curl >/dev/null 2>&1; then
-		curl -fsSL "$url" -o "$out"
+		curl -fsSL -A HarpyNet-updater "$url" -o "$out"
 	elif command -v wget >/dev/null 2>&1; then
-		wget -q -O "$out" "$url"
+		wget -q -U HarpyNet-updater -O "$out" "$url"
 	else
 		fail "Install curl or wget first"
 	fi
+}
+
+download_release_metadata() {
+	if download "$METADATA_URL" "$WORKDIR/release.json"; then
+		return 0
+	fi
+	warn "Public release metadata is unavailable; trying GitHub API"
+	download "$API_URL" "$WORKDIR/release.json"
 }
 
 package_manager() {
@@ -141,7 +150,7 @@ install_package_file() {
 install_release() {
 	local manager core_url ui_url core_file ui_file tag
 	manager="$(package_manager)"
-	download "$API_URL" "$WORKDIR/release.json"
+	download_release_metadata
 	tag="$(jq -r '.tag_name // empty' "$WORKDIR/release.json")"
 	[ -n "$tag" ] || fail "No public HarpyNet release found"
 	core_url="$(asset_url core)"
