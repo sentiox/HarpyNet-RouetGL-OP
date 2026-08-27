@@ -133,7 +133,7 @@ asset_url() {
 
 install_package_file() {
 	local manager="$1" file="$2"
-	if [ "$manager" = apk ]; then apk add --allow-untrusted "$file"
+	if [ "$manager" = apk ]; then apk add --allow-untrusted --network=false "$file"
 	else opkg install --force-reinstall "$file"
 	fi
 }
