@@ -125,10 +125,10 @@ asset_url() {
 	local kind="$1" extension="ipk"
 	[ "$(package_manager)" = apk ] && extension="apk"
 	case "$kind" in
-		core) jq -r '.assets[] | select(.name | test("^harpynet-[0-9].*\\.(ipk|apk)$")) | .browser_download_url' "$WORKDIR/release.json" ;;
-		gl) jq -r '.assets[] | select(.name | test("^harpynet-gl-ui-.*\\.(ipk|apk)$")) | .browser_download_url' "$WORKDIR/release.json" ;;
-		luci) jq -r '.assets[] | select(.name | test("^luci-app-harpynet-.*\\.(ipk|apk)$")) | .browser_download_url' "$WORKDIR/release.json" ;;
-	esac | grep "\.$extension$" | head -n 1
+		core) jq -r '.assets[].browser_download_url // empty' "$WORKDIR/release.json" 2>/dev/null | awk '/\/harpynet-[0-9].*\.(ipk|apk)$/' ;;
+		gl) jq -r '.assets[].browser_download_url // empty' "$WORKDIR/release.json" 2>/dev/null | awk '/\/harpynet-gl-ui-.*\.(ipk|apk)$/' ;;
+		luci) jq -r '.assets[].browser_download_url // empty' "$WORKDIR/release.json" 2>/dev/null | awk '/\/luci-app-harpynet-.*\.(ipk|apk)$/' ;;
+	esac | awk -v ext=".$extension" 'index($0, ext) == length($0) - length(ext) + 1 { print }' | head -n 1
 }
 
 install_package_file() {
@@ -146,7 +146,7 @@ install_release() {
 	[ -n "$tag" ] || fail "No public HarpyNet release found"
 	core_url="$(asset_url core)"
 	ui_url="$(asset_url "$UI_KIND")"
-	[ -n "$core_url" ] && [ -n "$ui_url" ] || fail "Release $tag has no packages for $manager/$UI_KIND"
+	[ -n "$core_url" ] && [ -n "$ui_url" ] || fail "Обновление $tag найдено, но пакеты для $manager/$UI_KIND ещё не опубликованы. Попробуйте позже."
 	core_file="$WORKDIR/$(basename "$core_url")"
 	ui_file="$WORKDIR/$(basename "$ui_url")"
 	info "Downloading HarpyNet $tag packages"
