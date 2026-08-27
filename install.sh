@@ -3,7 +3,7 @@ set -eu
 
 RELEASE_REPO="${HARPYNET_RELEASE_REPO:-sentiox/HarpyNet-RouetGL-OP}"
 API_URL="https://api.github.com/repos/$RELEASE_REPO/releases/latest"
-METADATA_URL="https://raw.githubusercontent.com/$RELEASE_REPO/main/release.json"
+METADATA_URL="https://raw.githubusercontent.com/$RELEASE_REPO/main/release.json?t=$(date +%s 2>/dev/null || echo 0)"
 WORKDIR="/tmp/harpynet-public-install.$$"
 UI_REQUEST="${HARPYNET_UI:-auto}"
 UI_KIND=""
