@@ -22,12 +22,42 @@ trap cleanup EXIT INT TERM
 download() {
 	local url="$1" out="$2"
 	if command -v curl >/dev/null 2>&1; then
-		curl -fsSL -A HarpyNet-updater "$url" -o "$out"
+		curl -fsL -A HarpyNet-updater "$url" -o "$out"
 	elif command -v wget >/dev/null 2>&1; then
 		wget -q -U HarpyNet-updater -O "$out" "$url"
 	else
 		fail "Install curl or wget first"
 	fi
+}
+
+version_key() {
+	printf '%s\n' "${1#v}" | awk -F '[^0-9]+' '{ for (i = 1; i <= 4; i++) printf "%06d", ($i == "" ? 0 : $i); printf "\n" }'
+}
+
+newer_tag() {
+	local a="$1" b="$2" a_key b_key
+	[ -n "$a" ] || { printf '%s\n' "$b"; return 0; }
+	[ -n "$b" ] || { printf '%s\n' "$a"; return 0; }
+	a_key="$(version_key "$a")"
+	b_key="$(version_key "$b")"
+	if [ "$(printf '%s\n%s\n' "$a_key" "$b_key" | sort | tail -n 1)" = "$b_key" ]; then
+		printf '%s\n' "$b"
+	else
+		printf '%s\n' "$a"
+	fi
+}
+
+latest_release_tag() {
+	local effective
+	[ -n "${HARPYNET_RELEASE_TAG:-}" ] && { printf '%s\n' "$HARPYNET_RELEASE_TAG"; return 0; }
+	command -v curl >/dev/null 2>&1 || return 1
+	effective="$(curl -fsSL -A HarpyNet-updater -o /dev/null -w '%{url_effective}' "https://github.com/$RELEASE_REPO/releases/latest" 2>/dev/null || true)"
+	effective="${effective%%\?*}"
+	effective="${effective%/}"
+	case "$effective" in
+		*/tag/v*) printf '%s\n' "${effective##*/}" ;;
+		*) return 1 ;;
+	esac
 }
 
 download_release_metadata() {
@@ -41,7 +71,7 @@ download_release_metadata() {
 		if download "$url" "$file"; then
 			tag="$(jq -r '.tag_name // empty' "$file" 2>/dev/null)"
 			if [ -n "$tag" ]; then
-				key="$(printf '%s\n' "${tag#v}" | awk -F '[^0-9]+' '{ for (i = 1; i <= 4; i++) printf "%06d", ($i == "" ? 0 : $i); printf "\n" }')"
+				key="$(version_key "$tag")"
 				if [ -z "$best_key" ] || [ "$(printf '%s\n%s\n' "$best_key" "$key" | sort | tail -n 1)" = "$key" ]; then
 					best_key="$key"
 					best_file="$file"
@@ -147,13 +177,21 @@ choose_ui() {
 }
 
 asset_url() {
-	local kind="$1" extension="ipk"
+	local kind="$1" tag="$2" extension="ipk" version name url found
 	[ "$(package_manager)" = apk ] && extension="apk"
-	case "$kind" in
+	version="${tag#v}"
+	found="$(case "$kind" in
 		core) jq -r '.assets[].browser_download_url // empty' "$WORKDIR/release.json" 2>/dev/null | awk '/\/harpynet-[0-9].*\.(ipk|apk)$/' ;;
 		gl) jq -r '.assets[].browser_download_url // empty' "$WORKDIR/release.json" 2>/dev/null | awk '/\/harpynet-gl-ui-.*\.(ipk|apk)$/' ;;
 		luci) jq -r '.assets[].browser_download_url // empty' "$WORKDIR/release.json" 2>/dev/null | awk '/\/luci-app-harpynet-.*\.(ipk|apk)$/' ;;
-	esac | awk -v ext=".$extension" 'index($0, ext) == length($0) - length(ext) + 1 { print }' | head -n 1
+	esac | awk -v tag="/download/$tag/" -v ext=".$extension" 'index($0, tag) && index($0, ext) == length($0) - length(ext) + 1 { print }' | head -n 1)"
+	[ -n "$found" ] && { printf '%s\n' "$found"; return 0; }
+	url="$(case "$kind" in
+		core) name="harpynet-${version}-r1.$extension" ;;
+		gl) name="harpynet-gl-ui-${version}-r1.$extension" ;;
+		luci) name="luci-app-harpynet-${version}-r1.$extension" ;;
+	esac; printf 'https://github.com/%s/releases/download/%s/%s\n' "$RELEASE_REPO" "$tag" "$name")"
+	printf '%s\n' "$url"
 }
 
 install_package_file() {
@@ -168,13 +206,15 @@ install_package_file() {
 }
 
 install_release() {
-	local manager core_url ui_url core_file ui_file tag
+	local manager core_url ui_url core_file ui_file tag redirect_tag
 	manager="$(package_manager)"
 	download_release_metadata
 	tag="$(jq -r '.tag_name // empty' "$WORKDIR/release.json")"
+	redirect_tag="$(latest_release_tag || true)"
+	tag="$(newer_tag "$tag" "$redirect_tag")"
 	[ -n "$tag" ] || fail "No public HarpyNet release found"
-	core_url="$(asset_url core)"
-	ui_url="$(asset_url "$UI_KIND")"
+	core_url="$(asset_url core "$tag")"
+	ui_url="$(asset_url "$UI_KIND" "$tag")"
 	[ -n "$core_url" ] && [ -n "$ui_url" ] || fail "Обновление $tag найдено, но пакеты для $manager/$UI_KIND ещё не опубликованы. Попробуйте позже."
 	core_file="$WORKDIR/$(basename "$core_url")"
 	ui_file="$WORKDIR/$(basename "$ui_url")"
