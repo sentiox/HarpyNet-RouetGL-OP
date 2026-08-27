@@ -146,7 +146,11 @@ asset_url() {
 
 install_package_file() {
 	local manager="$1" file="$2"
-	if [ "$manager" = apk ]; then apk add --allow-untrusted --network=false "$file"
+	if [ "$manager" = apk ]; then
+		local empty_repos
+		empty_repos="$WORKDIR/empty-repositories"
+		: > "$empty_repos"
+		apk add --allow-untrusted --repositories-file "$empty_repos" "$file"
 	else opkg install --force-reinstall "$file"
 	fi
 }
