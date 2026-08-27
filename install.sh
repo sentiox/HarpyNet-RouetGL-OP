@@ -31,14 +31,26 @@ download() {
 }
 
 download_release_metadata() {
-	if download "$METADATA_URL" "$WORKDIR/release.json"; then
-		return 0
-	fi
-	if download "$RAW_METADATA_URL" "$WORKDIR/release.json"; then
-		return 0
-	fi
-	warn "Public release metadata is unavailable; trying GitHub API"
-	download "$API_URL" "$WORKDIR/release.json"
+	local url file tag key best_file best_key index
+	best_file=""
+	best_key=""
+	index=0
+	for url in "$RAW_METADATA_URL" "$METADATA_URL" "$API_URL"; do
+		index=$((index + 1))
+		file="$WORKDIR/release-$index.json"
+		if download "$url" "$file"; then
+			tag="$(jq -r '.tag_name // empty' "$file" 2>/dev/null)"
+			if [ -n "$tag" ]; then
+				key="$(printf '%s\n' "${tag#v}" | awk -F '[^0-9]+' '{ for (i = 1; i <= 4; i++) printf "%06d", ($i == "" ? 0 : $i); printf "\n" }')"
+				if [ -z "$best_key" ] || [ "$(printf '%s\n%s\n' "$best_key" "$key" | sort | tail -n 1)" = "$key" ]; then
+					best_key="$key"
+					best_file="$file"
+				fi
+			fi
+		fi
+	done
+	[ -n "$best_file" ] || fail "Public release metadata is unavailable"
+	cp "$best_file" "$WORKDIR/release.json"
 }
 
 package_manager() {
