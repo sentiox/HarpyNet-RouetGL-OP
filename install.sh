@@ -3,7 +3,8 @@ set -eu
 
 RELEASE_REPO="${HARPYNET_RELEASE_REPO:-sentiox/HarpyNet-RouetGL-OP}"
 API_URL="https://api.github.com/repos/$RELEASE_REPO/releases/latest"
-METADATA_URL="https://raw.githubusercontent.com/$RELEASE_REPO/main/release.json?t=$(date +%s 2>/dev/null || echo 0)"
+METADATA_URL="https://cdn.jsdelivr.net/gh/$RELEASE_REPO@main/release.json?t=$(date +%s 2>/dev/null || echo 0)"
+RAW_METADATA_URL="https://raw.githubusercontent.com/$RELEASE_REPO/main/release.json?t=$(date +%s 2>/dev/null || echo 0)"
 WORKDIR="/tmp/harpynet-public-install.$$"
 UI_REQUEST="${HARPYNET_UI:-auto}"
 UI_KIND=""
@@ -31,6 +32,9 @@ download() {
 
 download_release_metadata() {
 	if download "$METADATA_URL" "$WORKDIR/release.json"; then
+		return 0
+	fi
+	if download "$RAW_METADATA_URL" "$WORKDIR/release.json"; then
 		return 0
 	fi
 	warn "Public release metadata is unavailable; trying GitHub API"
