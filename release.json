@@ -1,11 +1,11 @@
 {
-  "tag_name": "v1.6.19",
+  "tag_name": "v1.6.20",
   "assets": [
-    {"name": "harpynet-1.6.19-r1-all.ipk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.19/harpynet-1.6.19-r1-all.ipk"},
-    {"name": "harpynet-1.6.19-r1.apk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.19/harpynet-1.6.19-r1.apk"},
-    {"name": "harpynet-gl-ui-1.6.19-r1-all.ipk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.19/harpynet-gl-ui-1.6.19-r1-all.ipk"},
-    {"name": "harpynet-gl-ui-1.6.19-r1.apk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.19/harpynet-gl-ui-1.6.19-r1.apk"},
-    {"name": "luci-app-harpynet-1.6.19-r1-all.ipk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.19/luci-app-harpynet-1.6.19-r1-all.ipk"},
-    {"name": "luci-app-harpynet-1.6.19-r1.apk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.19/luci-app-harpynet-1.6.19-r1.apk"}
+    {"name": "harpynet-1.6.20-r1-all.ipk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.20/harpynet-1.6.20-r1-all.ipk"},
+    {"name": "harpynet-1.6.20-r1.apk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.20/harpynet-1.6.20-r1.apk"},
+    {"name": "harpynet-gl-ui-1.6.20-r1-all.ipk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.20/harpynet-gl-ui-1.6.20-r1-all.ipk"},
+    {"name": "harpynet-gl-ui-1.6.20-r1.apk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.20/harpynet-gl-ui-1.6.20-r1.apk"},
+    {"name": "luci-app-harpynet-1.6.20-r1-all.ipk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.20/luci-app-harpynet-1.6.20-r1-all.ipk"},
+    {"name": "luci-app-harpynet-1.6.20-r1.apk", "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.20/luci-app-harpynet-1.6.20-r1.apk"}
   ]
 }
