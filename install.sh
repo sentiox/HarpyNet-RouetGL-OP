@@ -73,7 +73,7 @@ download_release_metadata() {
 			tag="$(jq -r '.tag_name // empty' "$file" 2>/dev/null)"
 			if [ -n "$tag" ]; then
 				key="$(version_key "$tag")"
-				if [ -z "$best_key" ] || [ "$(printf '%s\n%s\n' "$best_key" "$key" | sort | tail -n 1)" = "$key" ]; then
+				if [ -z "$best_key" ] || [ "$key" \> "$best_key" ]; then
 					best_key="$key"
 					best_file="$file"
 				fi
