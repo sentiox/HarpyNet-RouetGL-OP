@@ -1,33 +1,33 @@
 {
-    "tag_name":  "v1.6.31",
-    "assets":  [
-                   {
-                       "name":  "harpynet-1.6.31-r1-all.ipk",
-                       "browser_download_url":  "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-1.6.31-r1-all.ipk"
-                   },
-                   {
-                       "name":  "harpynet-1.6.31-r1.apk",
-                       "browser_download_url":  "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-1.6.31-r1.apk"
-                   },
-                   {
-                       "name":  "harpynet-gl-ui-1.6.31-r1-all.ipk",
-                       "browser_download_url":  "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-gl-ui-1.6.31-r1-all.ipk"
-                   },
-                   {
-                       "name":  "harpynet-gl-ui-1.6.31-r1.apk",
-                       "browser_download_url":  "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-gl-ui-1.6.31-r1.apk"
-                   },
-                   {
-                       "name":  "luci-app-harpynet-1.6.31-r1-all.ipk",
-                       "browser_download_url":  "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/luci-app-harpynet-1.6.31-r1-all.ipk"
-                   },
-                   {
-                       "name":  "luci-app-harpynet-1.6.31-r1.apk",
-                       "browser_download_url":  "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/luci-app-harpynet-1.6.31-r1.apk"
-                   }
-               ],
-    "body":  "﻿HarpyNet 1.6.31\n\nНадёжнее обнаружение обновлений:\n- release.json теперь читается напрямую из Latest Release;\n- GitHub Raw, jsDelivr и API сохранены как резервные каналы;\n- обновлятор сравнивает ответы и выбирает самый новый релиз;\n- публикация автоматически очищает CDN и проверяет доступность нового номера.\n\nТакже включено автоматическое переподключение мобильного OpenWrt/LuCI после обновления. Настройки HarpyNet сохраняются.\r\n",
-    "html_url":  "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v1.6.31",
-    "name":  "v1.6.31",
-    "published_at":  "2026-08-28T16:17:13Z"
+  "tag_name": "v1.6.31",
+  "assets": [
+    {
+      "name": "harpynet-1.6.31-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-1.6.31-r1-all.ipk"
+    },
+    {
+      "name": "harpynet-1.6.31-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-1.6.31-r1.apk"
+    },
+    {
+      "name": "harpynet-gl-ui-1.6.31-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-gl-ui-1.6.31-r1-all.ipk"
+    },
+    {
+      "name": "harpynet-gl-ui-1.6.31-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/harpynet-gl-ui-1.6.31-r1.apk"
+    },
+    {
+      "name": "luci-app-harpynet-1.6.31-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/luci-app-harpynet-1.6.31-r1-all.ipk"
+    },
+    {
+      "name": "luci-app-harpynet-1.6.31-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.31/luci-app-harpynet-1.6.31-r1.apk"
+    }
+  ],
+  "body": "﻿HarpyNet 1.6.31\n\nНадёжнее обнаружение обновлений:\n- release.json теперь читается напрямую из Latest Release;\n- GitHub Raw, jsDelivr и API сохранены как резервные каналы;\n- обновлятор сравнивает ответы и выбирает самый новый релиз;\n- публикация автоматически очищает CDN и проверяет доступность нового номера.\n\nТакже включено автоматическое переподключение мобильного OpenWrt/LuCI после обновления. Настройки HarpyNet сохраняются.\r",
+  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v1.6.31",
+  "name": "v1.6.31",
+  "published_at": "2026-08-28T16:16:59Z"
 }
