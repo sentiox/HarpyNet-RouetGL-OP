@@ -3,6 +3,7 @@ set -eu
 
 RELEASE_REPO="${HARPYNET_RELEASE_REPO:-sentiox/HarpyNet-RouetGL-OP}"
 API_URL="https://api.github.com/repos/$RELEASE_REPO/releases/latest"
+RELEASE_ASSET_URL="https://github.com/$RELEASE_REPO/releases/latest/download/release.json?t=$(date +%s 2>/dev/null || echo 0)"
 METADATA_URL="https://cdn.jsdelivr.net/gh/$RELEASE_REPO@main/release.json?t=$(date +%s 2>/dev/null || echo 0)"
 RAW_METADATA_URL="https://raw.githubusercontent.com/$RELEASE_REPO/main/release.json?t=$(date +%s 2>/dev/null || echo 0)"
 WORKDIR="/tmp/harpynet-public-install.$$"
@@ -65,7 +66,7 @@ download_release_metadata() {
 	best_file=""
 	best_key=""
 	index=0
-	for url in "$RAW_METADATA_URL" "$METADATA_URL" "$API_URL"; do
+	for url in "$RELEASE_ASSET_URL" "$RAW_METADATA_URL" "$METADATA_URL" "$API_URL"; do
 		index=$((index + 1))
 		file="$WORKDIR/release-$index.json"
 		if download "$url" "$file"; then
