@@ -26,7 +26,7 @@
       "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.32/luci-app-harpynet-1.6.32-r1.apk"
     }
   ],
-  "body": "HarpyNet v1.6.32\n\nUnified GL.iNet and OpenWrt/LuCI package release.\n\nInstall:\n```sh\nsh -c \"$(wget -O - https://raw.githubusercontent.com/sentiox/HarpyNet-RouetGL-OP/main/install.sh)\"\n```",
+  "body": "﻿HarpyNet 1.6.32\n\nОписание релиза теперь сохраняется всегда:\n- показывается, когда доступно обновление;\n- остаётся после успешной установки;\n- отображается у клиентов с актуальной версией;\n- работает одинаково на GL.iNet и OpenWrt/LuCI;\n- временный пустой ответ больше не стирает текст из интерфейса;\n- изменения описания GitHub Release автоматически синхронизируются в публичный канал.\n\nТакже обновлятор использует Latest Release metadata с резервными каналами GitHub Raw, jsDelivr и API. Настройки HarpyNet сохраняются при обновлении.\r",
   "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v1.6.32",
   "name": "v1.6.32",
   "published_at": "2026-08-28T16:30:36Z"
