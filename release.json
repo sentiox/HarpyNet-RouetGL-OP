@@ -26,7 +26,7 @@
       "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.34/luci-app-harpynet-1.6.34-r1.apk"
     }
   ],
-  "body": "HarpyNet v1.6.34\n\nUnified GL.iNet and OpenWrt/LuCI package release.\n\nInstall:\n```sh\nsh -c \"$(wget -O - https://raw.githubusercontent.com/sentiox/HarpyNet-RouetGL-OP/main/install.sh)\"\n```",
+  "body": "## HarpyNet 1.6.34\r\n\r\nСтабильность Telegram и Instagram/Meta для GL.iNet и OpenWrt/LuCI.\r\n\r\nДизайн интерфейсов не изменялся — обновлены backend, сетевое ядро и логика настроек.\r\n\r\n### GL.iNet\r\n\r\nПакет: `harpynet-gl-ui`.\r\n\r\n- Стабильность Telegram и Instagram/Meta.\r\n- Резервные маршруты Telegram и Meta.\r\n- Поддержка `129.134.136.0/22`.\r\n- Исправлена обработка IP в nftables TProxy.\r\n- Исправлена настройка `mixed_proxy_enabled`.\r\n- Добавлено исключение NTP.\r\n- Добавлен мониторинг WAN.\r\n- Исправлено сохранение настроек.\r\n\r\n### OpenWrt\r\n\r\nПакет: `luci-app-harpynet`.\r\n\r\n- Стабильность Telegram и Instagram/Meta.\r\n- Резервные маршруты Telegram и Meta.\r\n- Поддержка `129.134.136.0/22`.\r\n- Исправлена обработка IP в nftables TProxy.\r\n- Исправлено сохранение настроек через RPC.\r\n- Исправлено сохранение списка WAN-интерфейсов.\r\n- Добавлено исключение NTP.\r\n- Добавлен мониторинг `wan` / `eth1`.\r\n- Исправлена подпись интерфейса OpenWrt.\r\n\r\n### Совместимость\r\n\r\nКонфигурация и URL подписки сохраняются при обновлении. Версии backend, установщика и пакетов синхронизированы на `1.6.34`.",
   "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v1.6.34",
   "name": "v1.6.34",
   "published_at": "2026-09-09T06:56:36Z"
