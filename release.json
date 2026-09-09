@@ -26,7 +26,7 @@
       "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.33/luci-app-harpynet-1.6.33-r1.apk"
     }
   ],
-  "body": "HarpyNet v1.6.33\n\nUnified GL.iNet and OpenWrt/LuCI package release.\n\nInstall:\n```sh\nsh -c \"$(wget -O - https://raw.githubusercontent.com/sentiox/HarpyNet-RouetGL-OP/main/install.sh)\"\n```",
+  "body": "## HarpyNet 1.6.33\n\nСтабильность Telegram и Instagram/Meta для GL.iNet и OpenWrt/LuCI.\n\n### Что исправлено\n\n- Добавлены встроенные резервные маршруты для IP-подсетей Telegram DC, включая подключения клиентов напрямую к IP без DNS.\n- Добавлены актуальные сети Meta для Instagram, Threads, Facebook и связанных CDN, включая `129.134.136.0/22`.\n- Правила Telegram и Instagram теперь добавляются с высоким приоритетом и работают даже при задержке или временной недоступности внешних rule-provider.\n- Исправлено попадание Telegram/Meta IP в nftables TProxy-набор при холодном запуске и обновлении подписки.\n- Настройка `mixed_proxy_enabled` теперь соблюдается: mixed-port не остаётся открытым из шаблона подписки, когда прокси в интерфейсе выключен.\n- Версии backend, установщика и пакета GL.iNet синхронизированы на `1.6.33`.\n\n### Совместимость\n\nОдин общий backend используется обоими интерфейсами:\n\n- GL.iNet: пакет `harpynet-gl-ui`;\n- OpenWrt/LuCI: пакет `luci-app-harpynet`.\n\nДля обновления достаточно запустить штатное самообновление HarpyNet или установщик. Существующая конфигурация и URL подписки сохраняются.",
   "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v1.6.33",
   "name": "v1.6.33",
   "published_at": "2026-09-09T05:32:57Z"
