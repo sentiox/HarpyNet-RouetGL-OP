@@ -116,10 +116,10 @@ install_runtime_packages() {
 }
 
 install_mihomo() {
-	command -v mihomo >/dev/null 2>&1 && mihomo -v >/dev/null 2>&1 && {
+	if [ "${HARPYNET_FORCE_MIHOMO:-0}" != "1" ] && command -v mihomo >/dev/null 2>&1 && mihomo -v >/dev/null 2>&1; then
 		info "Mihomo already installed: $(mihomo -v | head -n 1)"
 		return 0
-	}
+	fi
 
 	local machine arch json tag asset url archive digest actual
 	machine="$(uname -m)"
@@ -145,6 +145,7 @@ install_mihomo() {
 	case "$url" in
 		https://github.com/*) url="${MIHOMO_PROXY}${url}" ;;
 	esac
+	info "Downloading Mihomo $tag via mirror"
 	download "$url" "$archive"
 	if [ -n "$digest" ] && [ "${digest#sha256:}" != "$digest" ] && command -v sha256sum >/dev/null 2>&1; then
 		actual="$(sha256sum "$archive" | awk '{print $1}')"
