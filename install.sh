@@ -134,12 +134,17 @@ install_mihomo() {
 
 	json="$WORKDIR/mihomo.json"
 	archive="$WORKDIR/mihomo.gz"
-	download "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" "$json"
+	MIHOMO_API="${MIHOMO_API:-https://gh-proxy.com/https://api.github.com/repos/MetaCubeX/mihomo/releases/latest}"
+	MIHOMO_PROXY="${MIHOMO_PROXY:-https://gh-proxy.com/}"
+	download "$MIHOMO_API" "$json"
 	tag="$(jq -r '.tag_name // empty' "$json")"
 	asset="mihomo-linux-${arch}-${tag}.gz"
 	url="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .browser_download_url' "$json" | head -n 1)"
 	digest="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | (.digest // empty)' "$json" | head -n 1)"
 	[ -n "$url" ] || fail "Mihomo release does not contain $asset"
+	case "$url" in
+		https://github.com/*) url="${MIHOMO_PROXY}${url}" ;;
+	esac
 	download "$url" "$archive"
 	if [ -n "$digest" ] && [ "${digest#sha256:}" != "$digest" ] && command -v sha256sum >/dev/null 2>&1; then
 		actual="$(sha256sum "$archive" | awk '{print $1}')"
