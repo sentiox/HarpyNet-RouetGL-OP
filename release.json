@@ -1,33 +1,33 @@
 {
-  "tag_name": "v1.6.37",
+  "tag_name": "v1.6.38",
   "assets": [
     {
-      "name": "harpynet-1.6.37-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.37/harpynet-1.6.37-r1-all.ipk"
+      "name": "harpynet-1.6.38-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.38/harpynet-1.6.38-r1-all.ipk"
     },
     {
-      "name": "harpynet-1.6.37-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.37/harpynet-1.6.37-r1.apk"
+      "name": "harpynet-1.6.38-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.38/harpynet-1.6.38-r1.apk"
     },
     {
-      "name": "harpynet-gl-ui-1.6.37-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.37/harpynet-gl-ui-1.6.37-r1-all.ipk"
+      "name": "harpynet-gl-ui-1.6.38-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.38/harpynet-gl-ui-1.6.38-r1-all.ipk"
     },
     {
-      "name": "harpynet-gl-ui-1.6.37-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.37/harpynet-gl-ui-1.6.37-r1.apk"
+      "name": "harpynet-gl-ui-1.6.38-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.38/harpynet-gl-ui-1.6.38-r1.apk"
     },
     {
-      "name": "luci-app-harpynet-1.6.37-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.37/luci-app-harpynet-1.6.37-r1-all.ipk"
+      "name": "luci-app-harpynet-1.6.38-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.38/luci-app-harpynet-1.6.38-r1-all.ipk"
     },
     {
-      "name": "luci-app-harpynet-1.6.37-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.37/luci-app-harpynet-1.6.37-r1.apk"
+      "name": "luci-app-harpynet-1.6.38-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v1.6.38/luci-app-harpynet-1.6.38-r1.apk"
     }
   ],
-  "body": "# HarpyNet v1.6.37\n\n## Исправления роутера\n\n- Исправлена обработка старых подписок с DNS `195.208.4.1`: HarpyNet заменяет этот адрес на `1.1.1.1`. Во время диагностики старый DNS возвращал NXDOMAIN для существующих адресов YouTube и Instagram и вызывал ошибки разрешения имён.\n- Исправлена настройка «Отключить QUIC»: при её включении правило отклонения UDP/443 теперь действительно попадает в конфигурацию Mihomo и стоит перед правилами маршрутизации.\n- Обновлён полный шаблон Mihomo для Remnawave: исправлены DNS, удалено лишнее правило Telegram из fake-ip-filter, правила UDP/443 для YouTube и Meta перенесены перед маршрутами этих сервисов.\n\n## Проверка\n\nКонфигурация Mihomo прошла проверку на тестовом роутере GL-MT6000. Проверена загрузка страниц YouTube, Instagram и Discord, картинки YouTube и ответы серверов Telegram.\n\n## Отдельная настройка серверов\n\nДля проблемного шведского VPS дополнительно настроен выборочный WARP для Telegram, YouTube, Instagram/Facebook и Discord. Именно изменение серверного маршрута устранило зависание Telegram-медиа в этой установке; переключение QUIC само по себе проблему не решало.\n\nСерверный обход не устанавливается пакетом роутера. UDP и звонки этим TCP-обходом не охватываются. Шаблон Remnawave нужно обновить в панели отдельно, затем обновить подписку на роутере.",
-  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v1.6.37",
-  "name": "v1.6.37",
-  "published_at": "2026-09-30T19:33:03Z"
+  "body": "HarpyNet v1.6.38\n\n## Что нового\n- Режим «По спискам»: через VPN идут выбранные готовые списки и ваши домены/IP; остальной трафик — напрямую.\n- Готовые списки отображаются в режиме «По спискам». «Выключить VPN» остаётся доступным для отдельных устройств.\n- Одинаковая поддержка нового режима в GL.iNet и OpenWrt/LuCI.\n\n## Исправления\n- После завершения обновления открываются «Секции», останавливается опрос статуса и предотвращается повторная перезагрузка страницы после входа в LuCI.\n- Исправлен invalid_proxy_tag при выборе Japan и других имён с буквами r/n; сохранена проверка пустых имён, длины и переводов строк.\n- При применении правил закрываются устаревшие прямые соединения Discord, чтобы новые подключения использовали выбранный маршрут. Исключённые устройства и явные прямые правила сохраняются.\n- Исправлена обработка пользовательских IPv4/CIDR в маршрутизации TProxy.\n- Дополнен шаблон Mihomo для Remnawave правилами Ubisoft/Far Cry 6.\n\n## Проверка\nПроверены конфигурации Mihomo для режима «По спискам», выбор Японии/Швеции и сценарии завершения обновления с повторным входом. Исправления проверялись на GL.iNet и OpenWrt. Проверка интерфейса обновления выполнена моделированием без повторной установки пакетов. Новые списки Discord не добавлялись.\n\nНастройки сохраняются. Доступны пакеты IPK и APK для GL.iNet и OpenWrt/LuCI.",
+  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v1.6.38",
+  "name": "v1.6.38",
+  "published_at": "2026-10-03T14:11:45Z"
 }
