@@ -134,11 +134,26 @@ install_mihomo() {
 
 	json="$WORKDIR/mihomo.json"
 	archive="$WORKDIR/mihomo.gz"
-	download "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" "$json"
-	tag="$(jq -r '.tag_name // empty' "$json")"
-	asset="mihomo-linux-${arch}-${tag}.gz"
-	url="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .browser_download_url' "$json" | head -n 1)"
-	digest="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | (.digest // empty)' "$json" | head -n 1)"
+	digest=""
+	url=""
+	if download "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" "$json"; then
+		tag="$(jq -r '.tag_name // empty' "$json")"
+		asset="mihomo-linux-${arch}-${tag}.gz"
+		url="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .browser_download_url' "$json" | head -n 1)"
+		digest="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | (.digest // empty)' "$json" | head -n 1)"
+	fi
+	if [ -z "$url" ]; then
+		warn "Mihomo API unavailable; trying the release download page"
+		tag="$(curl -fsSL -A HarpyNet-updater -o /dev/null -w '%{url_effective}' https://github.com/MetaCubeX/mihomo/releases/latest)"
+		tag="${tag%%\?*}"
+		tag="${tag%/}"
+		case "$tag" in
+			*/tag/v*) tag="${tag##*/}" ;;
+			*) fail "Could not determine the latest Mihomo release" ;;
+		esac
+		asset="mihomo-linux-${arch}-${tag}.gz"
+		url="https://github.com/MetaCubeX/mihomo/releases/download/$tag/$asset"
+	fi
 	[ -n "$url" ] || fail "Mihomo release does not contain $asset"
 	download "$url" "$archive"
 	if [ -n "$digest" ] && [ "${digest#sha256:}" != "$digest" ] && command -v sha256sum >/dev/null 2>&1; then
