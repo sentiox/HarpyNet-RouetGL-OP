@@ -233,7 +233,9 @@ install_runtime_packages
 install_mihomo
 install_release
 /usr/bin/harpynet prepare_geodata >/dev/null || fail "Could not prepare Mihomo GeoIP database"
-/etc/init.d/harpynet enable >/dev/null 2>&1 || true
+if [ -z "$(uci -q get harpynet.main.subscription_url 2>/dev/null || true)" ]; then
+	/etc/init.d/harpynet disable >/dev/null 2>&1 || true
+fi
 if [ -n "$(uci -q get harpynet.main.subscription_url 2>/dev/null || true)" ]; then
 	/etc/init.d/harpynet restart >/dev/null 2>&1 || fail "HarpyNet failed to restart"
 	/usr/bin/harpynet wait_ready >/dev/null || fail "Mihomo did not become ready"
