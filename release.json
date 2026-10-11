@@ -1,33 +1,33 @@
 {
-  "tag_name": "v2.0.0",
+  "tag_name": "v2.0.1",
   "assets": [
     {
-      "name": "harpynet-2.0.0-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.0/harpynet-2.0.0-r1-all.ipk"
+      "name": "harpynet-2.0.1-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-2.0.1-r1-all.ipk"
     },
     {
-      "name": "harpynet-2.0.0-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.0/harpynet-2.0.0-r1.apk"
+      "name": "harpynet-2.0.1-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-2.0.1-r1.apk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.0-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.0/harpynet-gl-ui-2.0.0-r1-all.ipk"
+      "name": "harpynet-gl-ui-2.0.1-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-gl-ui-2.0.1-r1-all.ipk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.0-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.0/harpynet-gl-ui-2.0.0-r1.apk"
+      "name": "harpynet-gl-ui-2.0.1-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-gl-ui-2.0.1-r1.apk"
     },
     {
-      "name": "luci-app-harpynet-2.0.0-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.0/luci-app-harpynet-2.0.0-r1-all.ipk"
+      "name": "luci-app-harpynet-2.0.1-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/luci-app-harpynet-2.0.1-r1-all.ipk"
     },
     {
-      "name": "luci-app-harpynet-2.0.0-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.0/luci-app-harpynet-2.0.0-r1.apk"
+      "name": "luci-app-harpynet-2.0.1-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/luci-app-harpynet-2.0.1-r1.apk"
     }
   ],
-  "body": "HarpyNet v2.0.0\n\nНовый интерфейс GL.iNet и OpenWrt/LuCI\n- Общая современная компоновка, мобильное меню, единые кнопки и подсказки.\n- GL.iNet: тёмная синяя тема. OpenWrt: графитовая тема с золотыми акцентами и мягким фоном из точек.\n- Mihomo открывается отдельной страницей с поиском по конфигурации.\n- Управление подпиской в компактном окне рядом с кнопкой; закрытие по повторному нажатию, крестику, Escape и клику вне окна.\n- Без подписки отображается экран добавления ключа.\n\nРабота подписки и обновлений\n- Удаление подписки останавливает VPN, выключает автозапуск и очищает сохранённую конфигурацию и страны.\n- Первая подписка включает автозапуск; сохранение существующей не меняет ручной выбор клиента.\n- Автообновление по умолчанию выключено. После включения роутер раз в сутки проверяет новую версию и устанавливает её при наличии пакетов.\n- Настройки пользователя сохраняются при обновлении.\n- Проверка пинга больше не показывает преждевременный N/A из-за искусственной очереди.\n\nПроверки\n- Интерфейсы проверены на реальных GL.iNet и OpenWrt роутерах.\n- Проверены синтаксис изменённых JavaScript, shell и Lua файлов, права API и сценарии автообновления.\n- Релизная сборка формирует три IPK и три APK.",
-  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.0",
-  "name": "v2.0.0",
-  "published_at": "2026-10-09T04:03:44Z"
+  "body": "# HarpyNet 2.0.1\n\nИсправлена маршрутизация «По спискам → Россия мимо VPN» на GL.iNet и OpenWrt/LuCI. YouTube, аниме и другие автоматически включённые сервисы идут через VPN; региональные «Россия через VPN» и «Украина» автоматически не включаются.\n\nСписок заблокированных в России доменов больше не направляется в DIRECT. Добавлены отдельные исключения российских сервисов напрямую, GEOIP RU и VPN для остального трафика. В интерфейсе автоматически включённые списки отмечены и заблокированы для ручного снятия, с пояснением.\n\nНастройки, ключи подписки и выбранный сервер сохраняются. После обновления закройте старые вкладки YouTube и откройте заново.\n\nПроверено: shell/JS syntax, генерация и валидация трёх сценариев правил Mihomo; применение на обоих роутерах. После исправления запрос к YouTube через сеть владельца вернул HTTP 200. Это не проверка воспроизведения всех видео или доступности всех серверов.",
+  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.1",
+  "name": "v2.0.1",
+  "published_at": "2026-10-11T18:30:09Z"
 }
