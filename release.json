@@ -1,33 +1,33 @@
 {
-  "tag_name": "v2.0.1",
+  "tag_name": "v2.0.2",
   "assets": [
     {
-      "name": "harpynet-2.0.1-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-2.0.1-r1-all.ipk"
+      "name": "harpynet-2.0.2-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-2.0.2-r1-all.ipk"
     },
     {
-      "name": "harpynet-2.0.1-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-2.0.1-r1.apk"
+      "name": "harpynet-2.0.2-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-2.0.2-r1.apk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.1-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-gl-ui-2.0.1-r1-all.ipk"
+      "name": "harpynet-gl-ui-2.0.2-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-gl-ui-2.0.2-r1-all.ipk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.1-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/harpynet-gl-ui-2.0.1-r1.apk"
+      "name": "harpynet-gl-ui-2.0.2-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-gl-ui-2.0.2-r1.apk"
     },
     {
-      "name": "luci-app-harpynet-2.0.1-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/luci-app-harpynet-2.0.1-r1-all.ipk"
+      "name": "luci-app-harpynet-2.0.2-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/luci-app-harpynet-2.0.2-r1-all.ipk"
     },
     {
-      "name": "luci-app-harpynet-2.0.1-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.1/luci-app-harpynet-2.0.1-r1.apk"
+      "name": "luci-app-harpynet-2.0.2-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/luci-app-harpynet-2.0.2-r1.apk"
     }
   ],
-  "body": "# HarpyNet 2.0.1\n\nИсправлена маршрутизация «По спискам → Россия мимо VPN» на GL.iNet и OpenWrt/LuCI. YouTube, аниме и другие автоматически включённые сервисы идут через VPN; региональные «Россия через VPN» и «Украина» автоматически не включаются.\n\nСписок заблокированных в России доменов больше не направляется в DIRECT. Добавлены отдельные исключения российских сервисов напрямую, GEOIP RU и VPN для остального трафика. В интерфейсе автоматически включённые списки отмечены и заблокированы для ручного снятия, с пояснением.\n\nНастройки, ключи подписки и выбранный сервер сохраняются. После обновления закройте старые вкладки YouTube и откройте заново.\n\nПроверено: shell/JS syntax, генерация и валидация трёх сценариев правил Mihomo; применение на обоих роутерах. После исправления запрос к YouTube через сеть владельца вернул HTTP 200. Это не проверка воспроизведения всех видео или доступности всех серверов.",
-  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.1",
-  "name": "v2.0.1",
-  "published_at": "2026-10-11T18:30:09Z"
+  "body": "# HarpyNet 2.0.2\n\nИсправлено отображение сохранённых настроек в OpenWrt/LuCI. После обновления подписки интерфейс больше не подставляет «Умный обход» вместо выбранного режима «По спискам» и не теряет отображение готовых списков и других параметров.\n\nПричина: shell RPC summary не возвращал блок main, который ожидает общий интерфейс GL.iNet/LuCI. Теперь возвращаются сохранённые параметры и списки, как в GL API. Обновление подписки не меняет выбранный режим, списки и подписку пользователя. Исправления маршрутизации версии 2.0.1 сохранены.\n\nПроверено на GL.iNet 192.168.8.1 и OpenWrt 192.168.8.150: реальное обновление подписки, неизменность сохранённого режима и списков, наличие всех 26 параметров main в summary, совпадение возвращаемых списков с UCI, shell syntax. Переключение режимов пользователя для проверки не выполнялось.",
+  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.2",
+  "name": "v2.0.2",
+  "published_at": "2026-10-11T18:49:39Z"
 }
