@@ -18,17 +18,29 @@ fail() { printf '\033[31;1m%s\033[0m\n' "$*" >&2; exit 1; }
 cleanup() {
 	[ -d "$WORKDIR" ] && rm -rf "$WORKDIR"
 }
-trap cleanup EXIT INT TERM
+# BusyBox ash may execute EXIT traps inside command substitutions.
+# Do not delete WORKDIR until the top-level installer completes.
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 download() {
-	local url="$1" out="$2"
+	local url="$1" out="$2" temp="${2}.part"
+	rm -f "$temp"
 	if command -v curl >/dev/null 2>&1; then
-		curl -fsL -A HarpyNet-updater "$url" -o "$out"
+		if ! curl -fSL --retry 2 --connect-timeout 10 --max-time 90 -A HarpyNet-updater "$url" -o "$temp"; then
+			rm -f "$temp"
+			return 1
+		fi
 	elif command -v wget >/dev/null 2>&1; then
-		wget -q -U HarpyNet-updater -O "$out" "$url"
+		if ! wget -q -T 30 -U HarpyNet-updater -O "$temp" "$url"; then
+			rm -f "$temp"
+			return 1
+		fi
 	else
 		fail "Install curl or wget first"
 	fi
+	[ -s "$temp" ] || { rm -f "$temp"; return 1; }
+	mv -f "$temp" "$out"
 }
 
 version_key() {
@@ -52,7 +64,7 @@ latest_release_tag() {
 	local effective
 	[ -n "${HARPYNET_RELEASE_TAG:-}" ] && { printf '%s\n' "$HARPYNET_RELEASE_TAG"; return 0; }
 	command -v curl >/dev/null 2>&1 || return 1
-	effective="$(curl -fsSL -A HarpyNet-updater -o /dev/null -w '%{url_effective}' "https://github.com/$RELEASE_REPO/releases/latest" 2>/dev/null || true)"
+	effective="$(curl -fsSL --connect-timeout 10 --max-time 30 -A HarpyNet-updater -o /dev/null -w '%{url_effective}' "https://github.com/$RELEASE_REPO/releases/latest" 2>/dev/null || true)"
 	effective="${effective%%\?*}"
 	effective="${effective%/}"
 	case "$effective" in
@@ -66,11 +78,11 @@ download_release_metadata() {
 	best_file=""
 	best_key=""
 	index=0
-	for url in "$RELEASE_ASSET_URL" "$RAW_METADATA_URL" "$METADATA_URL" "$API_URL"; do
+	for url in "$API_URL" "$RAW_METADATA_URL" "$RELEASE_ASSET_URL" "$METADATA_URL"; do
 		index=$((index + 1))
 		file="$WORKDIR/release-$index.json"
 		if download "$url" "$file"; then
-			tag="$(jq -r '.tag_name // empty' "$file" 2>/dev/null)"
+			tag="$(jq -r '.tag_name // empty' "$file" 2>/dev/null || true)"
 			if [ -n "$tag" ]; then
 				key="$(version_key "$tag")"
 				if [ -z "$best_key" ] || [ "$key" \> "$best_key" ]; then
@@ -81,7 +93,8 @@ download_release_metadata() {
 		fi
 	done
 	[ -n "$best_file" ] || fail "Public release metadata is unavailable"
-	cp "$best_file" "$WORKDIR/release.json"
+	[ -s "$best_file" ] || fail "Release metadata disappeared: $best_file (workdir: $WORKDIR)"
+	cp "$best_file" "$WORKDIR/release.json" || fail "Could not copy release metadata from $best_file"
 }
 
 package_manager() {
@@ -144,7 +157,7 @@ install_mihomo() {
 	fi
 	if [ -z "$url" ]; then
 		warn "Mihomo API unavailable; trying the release download page"
-		tag="$(curl -fsSL -A HarpyNet-updater -o /dev/null -w '%{url_effective}' https://github.com/MetaCubeX/mihomo/releases/latest)"
+		tag="$(curl -fsSL --connect-timeout 10 --max-time 30 -A HarpyNet-updater -o /dev/null -w '%{url_effective}' https://github.com/MetaCubeX/mihomo/releases/latest)"
 		tag="${tag%%\?*}"
 		tag="${tag%/}"
 		case "$tag" in
@@ -263,3 +276,4 @@ else
 	/etc/init.d/uhttpd restart >/dev/null 2>&1 || true
 fi
 info "HarpyNet $(/usr/bin/harpynet show_version) installed successfully ($UI_KIND UI)"
+cleanup
