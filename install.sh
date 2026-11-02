@@ -18,29 +18,17 @@ fail() { printf '\033[31;1m%s\033[0m\n' "$*" >&2; exit 1; }
 cleanup() {
 	[ -d "$WORKDIR" ] && rm -rf "$WORKDIR"
 }
-# BusyBox ash may execute EXIT traps inside command substitutions.
-# Do not delete WORKDIR until the top-level installer completes.
-trap 'exit 130' INT
-trap 'exit 143' TERM
+trap cleanup EXIT INT TERM
 
 download() {
-	local url="$1" out="$2" temp="${2}.part"
-	rm -f "$temp"
+	local url="$1" out="$2"
 	if command -v curl >/dev/null 2>&1; then
-		if ! curl -fSL --retry 2 --connect-timeout 10 --max-time 90 -A HarpyNet-updater "$url" -o "$temp"; then
-			rm -f "$temp"
-			return 1
-		fi
+		curl -fsL -A HarpyNet-updater "$url" -o "$out"
 	elif command -v wget >/dev/null 2>&1; then
-		if ! wget -q -T 30 -U HarpyNet-updater -O "$temp" "$url"; then
-			rm -f "$temp"
-			return 1
-		fi
+		wget -q -U HarpyNet-updater -O "$out" "$url"
 	else
 		fail "Install curl or wget first"
 	fi
-	[ -s "$temp" ] || { rm -f "$temp"; return 1; }
-	mv -f "$temp" "$out"
 }
 
 version_key() {
@@ -64,7 +52,7 @@ latest_release_tag() {
 	local effective
 	[ -n "${HARPYNET_RELEASE_TAG:-}" ] && { printf '%s\n' "$HARPYNET_RELEASE_TAG"; return 0; }
 	command -v curl >/dev/null 2>&1 || return 1
-	effective="$(curl -fsSL --connect-timeout 10 --max-time 30 -A HarpyNet-updater -o /dev/null -w '%{url_effective}' "https://github.com/$RELEASE_REPO/releases/latest" 2>/dev/null || true)"
+	effective="$(curl -fsSL -A HarpyNet-updater -o /dev/null -w '%{url_effective}' "https://github.com/$RELEASE_REPO/releases/latest" 2>/dev/null || true)"
 	effective="${effective%%\?*}"
 	effective="${effective%/}"
 	case "$effective" in
@@ -78,11 +66,11 @@ download_release_metadata() {
 	best_file=""
 	best_key=""
 	index=0
-	for url in "$API_URL" "$RAW_METADATA_URL" "$RELEASE_ASSET_URL" "$METADATA_URL"; do
+	for url in "$RELEASE_ASSET_URL" "$RAW_METADATA_URL" "$METADATA_URL" "$API_URL"; do
 		index=$((index + 1))
 		file="$WORKDIR/release-$index.json"
 		if download "$url" "$file"; then
-			tag="$(jq -r '.tag_name // empty' "$file" 2>/dev/null || true)"
+			tag="$(jq -r '.tag_name // empty' "$file" 2>/dev/null)"
 			if [ -n "$tag" ]; then
 				key="$(version_key "$tag")"
 				if [ -z "$best_key" ] || [ "$key" \> "$best_key" ]; then
@@ -93,8 +81,7 @@ download_release_metadata() {
 		fi
 	done
 	[ -n "$best_file" ] || fail "Public release metadata is unavailable"
-	[ -s "$best_file" ] || fail "Release metadata disappeared: $best_file (workdir: $WORKDIR)"
-	cp "$best_file" "$WORKDIR/release.json" || fail "Could not copy release metadata from $best_file"
+	cp "$best_file" "$WORKDIR/release.json"
 }
 
 package_manager() {
@@ -129,12 +116,15 @@ install_runtime_packages() {
 }
 
 install_mihomo() {
-	command -v mihomo >/dev/null 2>&1 && mihomo -v >/dev/null 2>&1 && {
-		info "Mihomo already installed: $(mihomo -v | head -n 1)"
+	# A working stock binary can still have Firefox 120 without ML-KEM.
+	local core_version="v1.19.33-harpynet.1"
+	local core_release="v2.0.3"
+	local core_repo="${HARPYNET_RELEASE_REPO:-sentiox/HarpyNet-RouetGL-OP}"
+	local machine arch asset archive sums expected actual candidate
+	if command -v mihomo >/dev/null 2>&1 && mihomo -v 2>/dev/null | grep -q " $core_version "; then
+		info "Compatible Mihomo already installed: $core_version"
 		return 0
-	}
-
-	local machine arch json tag asset url archive digest actual
+	fi
 	machine="$(uname -m)"
 	case "$machine" in
 		aarch64|arm64) arch=arm64 ;;
@@ -144,38 +134,28 @@ install_mihomo() {
 		i386|i486|i586|i686) arch=386 ;;
 		*) fail "Unsupported Mihomo architecture: $machine" ;;
 	esac
-
-	json="$WORKDIR/mihomo.json"
-	archive="$WORKDIR/mihomo.gz"
-	digest=""
-	url=""
-	if download "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" "$json"; then
-		tag="$(jq -r '.tag_name // empty' "$json")"
-		asset="mihomo-linux-${arch}-${tag}.gz"
-		url="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .browser_download_url' "$json" | head -n 1)"
-		digest="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | (.digest // empty)' "$json" | head -n 1)"
+	mkdir -p "$WORKDIR"
+	asset="mihomo-linux-$arch.gz"
+	archive="$WORKDIR/$asset"
+	sums="$WORKDIR/mihomo-SHA256SUMS"
+	candidate="/usr/bin/mihomo.harpynet-new"
+	info "Installing Mihomo with Firefox 148 and X25519MLKEM768 support..."
+	download "https://github.com/$core_repo/releases/download/$core_release/mihomo-SHA256SUMS" "$sums" || fail "Compatible Mihomo checksums are unavailable"
+	download "https://github.com/$core_repo/releases/download/$core_release/$asset" "$archive" || fail "Compatible Mihomo binary is unavailable"
+	expected="$(awk -v name="$asset" '$2 == name {print $1}' "$sums")"
+	[ "${#expected}" = 64 ] || fail "Missing Mihomo checksum"
+	actual="$(sha256sum "$archive" | awk '{print $1}')"
+	[ "$actual" = "$expected" ] || fail "Mihomo checksum verification failed"
+	gzip -dc "$archive" > "$candidate" || { rm -f "$candidate"; fail "Could not decompress Mihomo"; }
+	chmod 0755 "$candidate"
+	if ! "$candidate" -v 2>/dev/null | grep -q " $core_version "; then
+		rm -f "$candidate"
+		fail "Compatible Mihomo binary does not start or has an unexpected version"
 	fi
-	if [ -z "$url" ]; then
-		warn "Mihomo API unavailable; trying the release download page"
-		tag="$(curl -fsSL --connect-timeout 10 --max-time 30 -A HarpyNet-updater -o /dev/null -w '%{url_effective}' https://github.com/MetaCubeX/mihomo/releases/latest)"
-		tag="${tag%%\?*}"
-		tag="${tag%/}"
-		case "$tag" in
-			*/tag/v*) tag="${tag##*/}" ;;
-			*) fail "Could not determine the latest Mihomo release" ;;
-		esac
-		asset="mihomo-linux-${arch}-${tag}.gz"
-		url="https://github.com/MetaCubeX/mihomo/releases/download/$tag/$asset"
-	fi
-	[ -n "$url" ] || fail "Mihomo release does not contain $asset"
-	download "$url" "$archive"
-	if [ -n "$digest" ] && [ "${digest#sha256:}" != "$digest" ] && command -v sha256sum >/dev/null 2>&1; then
-		actual="$(sha256sum "$archive" | awk '{print $1}')"
-		[ "$actual" = "${digest#sha256:}" ] || fail "Mihomo checksum verification failed"
-	fi
-	gzip -dc "$archive" > /usr/bin/mihomo
-	chmod 0755 /usr/bin/mihomo
-	mihomo -v >/dev/null 2>&1 || fail "Installed Mihomo does not start"
+	# Keep the previous executable until the new one has passed validation.
+	[ ! -f /usr/bin/mihomo ] || cp -p /usr/bin/mihomo /usr/bin/mihomo.harpynet-backup
+	mv -f "$candidate" /usr/bin/mihomo
+	info "Installed $(mihomo -v | head -n 1)"
 }
 
 has_gl_ui() { [ -d /usr/share/oui/menu.d ] && [ -d /www/views ]; }
@@ -276,4 +256,3 @@ else
 	/etc/init.d/uhttpd restart >/dev/null 2>&1 || true
 fi
 info "HarpyNet $(/usr/bin/harpynet show_version) installed successfully ($UI_KIND UI)"
-cleanup

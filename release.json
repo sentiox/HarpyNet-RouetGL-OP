@@ -1,33 +1,61 @@
 {
-  "tag_name": "v2.0.2",
+  "tag_name": "v2.0.3",
   "assets": [
     {
-      "name": "harpynet-2.0.2-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-2.0.2-r1-all.ipk"
+      "name": "harpynet-2.0.3-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-2.0.3-r1-all.ipk"
     },
     {
-      "name": "harpynet-2.0.2-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-2.0.2-r1.apk"
+      "name": "harpynet-2.0.3-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-2.0.3-r1.apk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.2-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-gl-ui-2.0.2-r1-all.ipk"
+      "name": "harpynet-gl-ui-2.0.3-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-gl-ui-2.0.3-r1-all.ipk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.2-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/harpynet-gl-ui-2.0.2-r1.apk"
+      "name": "harpynet-gl-ui-2.0.3-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-gl-ui-2.0.3-r1.apk"
     },
     {
-      "name": "luci-app-harpynet-2.0.2-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/luci-app-harpynet-2.0.2-r1-all.ipk"
+      "name": "luci-app-harpynet-2.0.3-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/luci-app-harpynet-2.0.3-r1-all.ipk"
     },
     {
-      "name": "luci-app-harpynet-2.0.2-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.2/luci-app-harpynet-2.0.2-r1.apk"
+      "name": "luci-app-harpynet-2.0.3-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/luci-app-harpynet-2.0.3-r1.apk"
+    },
+    {
+      "name": "mihomo-SHA256SUMS",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-SHA256SUMS"
+    },
+    {
+      "name": "mihomo-linux-386.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-386.gz"
+    },
+    {
+      "name": "mihomo-linux-amd64.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-amd64.gz"
+    },
+    {
+      "name": "mihomo-linux-arm64.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-arm64.gz"
+    },
+    {
+      "name": "mihomo-linux-armv6.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-armv6.gz"
+    },
+    {
+      "name": "mihomo-linux-armv7.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-armv7.gz"
+    },
+    {
+      "name": "mihomo-source.tar.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-source.tar.gz"
     }
   ],
-  "body": "# HarpyNet 2.0.2\n\nИсправлено отображение сохранённых настроек в OpenWrt/LuCI. После обновления подписки интерфейс больше не подставляет «Умный обход» вместо выбранного режима «По спискам» и не теряет отображение готовых списков и других параметров.\n\nПричина: shell RPC summary не возвращал блок main, который ожидает общий интерфейс GL.iNet/LuCI. Теперь возвращаются сохранённые параметры и списки, как в GL API. Обновление подписки не меняет выбранный режим, списки и подписку пользователя. Исправления маршрутизации версии 2.0.1 сохранены.\n\nПроверено на GL.iNet 192.168.8.1 и OpenWrt 192.168.8.150: реальное обновление подписки, неизменность сохранённого режима и списков, наличие всех 26 параметров main в summary, совпадение возвращаемых списков с UCI, shell syntax. Переключение режимов пользователя для проверки не выполнялось.",
-  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.2",
-  "name": "v2.0.2",
-  "published_at": "2026-10-11T18:49:39Z"
+  "body": "# HarpyNet 2.0.3\n\n���������� ����������� REALITY � Firefox � ���������� X25519MLKEM768.\n������� Mihomo 1.19.33 ���������� Firefox 120, ������� �� ���������� ML-KEM\nkey share. ������ ����������� ��������� ��� �� ����������� ������ � Firefox 148\n� TLS-����������� �� FlClashX 0.4.2. ��������� � ����� �������� �� ����������.\n\n���� ���������� ��� arm64, armv7, armv6, amd64 � 386. ����� ������� �����������\nSHA-256 � ������ ���������; ���������� �������� ����������� ���\n/usr/bin/mihomo.harpynet-backup. ��������� ������ ���� ����������� � ������.\n\n��������� �� GL-MT6000: ������� Firefox + ML-KEM �� ������������, Firefox 148\n� ��� �� ������������� ������� �������� ���� �����������. ���������� ML-KEM\n�� ��������� �������� �� ����������� �������.\n\n����� ������ ���� ��� ����� �������� �������� ������ ��������� �������� �����.\n����� ��������� ����������: Google generate_204 � HTTP 204, YouTube �\nCloudflare � HTTP 200. ��������� UCI ��������� � ��������� ������, nftables �������.\n��������� ����� ��� �������� SHA-256, ���������� �������� ��������� � ���������\n��������� ��� ������ �������� ������������ ����.",
+  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.3",
+  "name": "v2.0.3",
+  "published_at": "2026-11-02T23:46:33Z"
 }
