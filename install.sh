@@ -115,12 +115,14 @@ install_runtime_packages() {
 	fi
 }
 
-install_mihomo() {
+install_mihomo() (
 	# A working stock binary can still have Firefox 120 without ML-KEM.
 	local core_version="v1.19.33-harpynet.1"
 	local core_release="v2.0.3"
 	local core_repo="${HARPYNET_RELEASE_REPO:-sentiox/HarpyNet-RouetGL-OP}"
-	local machine arch asset archive sums expected actual candidate
+	local machine arch asset archive sums expected actual candidate backup had_core was_running changed committed attempt
+	umask 077
+	had_core=0; was_running=0; changed=0; committed=0
 	if command -v mihomo >/dev/null 2>&1 && mihomo -v 2>/dev/null | grep -q " $core_version "; then
 		info "Compatible Mihomo already installed: $core_version"
 		return 0
@@ -139,6 +141,7 @@ install_mihomo() {
 	archive="$WORKDIR/$asset"
 	sums="$WORKDIR/mihomo-SHA256SUMS"
 	candidate="/usr/bin/mihomo.harpynet-new"
+	backup="/tmp/harpynet-mihomo-backup.gz"
 	info "Installing Mihomo with Firefox 148 and X25519MLKEM768 support..."
 	download "https://github.com/$core_repo/releases/download/$core_release/mihomo-SHA256SUMS" "$sums" || fail "Compatible Mihomo checksums are unavailable"
 	download "https://github.com/$core_repo/releases/download/$core_release/$asset" "$archive" || fail "Compatible Mihomo binary is unavailable"
@@ -146,17 +149,55 @@ install_mihomo() {
 	[ "${#expected}" = 64 ] || fail "Missing Mihomo checksum"
 	actual="$(sha256sum "$archive" | awk '{print $1}')"
 	[ "$actual" = "$expected" ] || fail "Mihomo checksum verification failed"
-	gzip -dc "$archive" > "$candidate" || { rm -f "$candidate"; fail "Could not decompress Mihomo"; }
-	chmod 0755 "$candidate"
-	if ! "$candidate" -v 2>/dev/null | grep -q " $core_version "; then
-		rm -f "$candidate"
-		fail "Compatible Mihomo binary does not start or has an unexpected version"
+	# Keep only one uncompressed executable on flash. The verified download and
+	# compressed rollback copy fit in /tmp even on small Cudy/OpenWrt devices.
+	if [ -f /usr/bin/mihomo ]; then
+		had_core=1
+		gzip -c /usr/bin/mihomo > "$backup.new" || { rm -f "$backup.new"; fail "Not enough temporary space to back up Mihomo; existing core unchanged"; }
+		gzip -t "$backup.new" || fail "Mihomo backup verification failed"
+		mv -f "$backup.new" "$backup"
 	fi
-	# Keep the previous executable until the new one has passed validation.
-	[ ! -f /usr/bin/mihomo ] || cp -p /usr/bin/mihomo /usr/bin/mihomo.harpynet-backup
-	mv -f "$candidate" /usr/bin/mihomo
+	if [ -x /etc/init.d/harpynet ] && /etc/init.d/harpynet running >/dev/null 2>&1; then was_running=1; fi
+	core_finish() {
+		local result="$1"
+		trap - EXIT HUP INT TERM
+		if [ "$changed" = 1 ] && [ "$committed" != 1 ]; then
+			rm -f "$candidate" /usr/bin/mihomo
+			if [ "$had_core" = 1 ]; then
+				if gzip -dc "$backup" > /usr/bin/mihomo; then
+					chmod 0755 /usr/bin/mihomo
+				else
+					warn "Restore failed. Compressed backup: $backup"
+				fi
+			fi
+		fi
+		if [ "$was_running" = 1 ]; then /etc/init.d/harpynet start >/dev/null 2>&1 || warn "HarpyNet restart failed"; fi
+		exit "$result"
+	}
+	trap 'core_finish $?' EXIT
+	trap 'exit 129' HUP
+	trap 'exit 130' INT
+	trap 'exit 143' TERM
+	if [ "$was_running" = 1 ]; then
+		/etc/init.d/harpynet stop || fail "Could not stop HarpyNet; existing core unchanged"
+	fi
+	# Do not replace an executable owned by another running service.
+	attempt=0
+	while pidof mihomo >/dev/null 2>&1; do
+		attempt=$((attempt + 1))
+		[ "$attempt" -lt 5 ] || fail "Another Mihomo process is running; stop it before updating"
+		sleep 1
+	done
+	changed=1
+	rm -f /usr/bin/mihomo
+	gzip -dc "$archive" > "$candidate" || fail "Not enough flash space to install Mihomo; restoring previous core"
+	chmod 0755 "$candidate"
+	"$candidate" -v 2>/dev/null | grep -q " $core_version " || fail "New Mihomo binary does not start; restoring previous core"
+	mv -f "$candidate" /usr/bin/mihomo || fail "Could not install Mihomo; restoring previous core"
+	committed=1
 	info "Installed $(mihomo -v | head -n 1)"
-}
+	[ "$had_core" = 0 ] || info "Rollback copy (until reboot): $backup"
+)
 
 has_gl_ui() { [ -d /usr/share/oui/menu.d ] && [ -d /www/views ]; }
 has_luci_ui() { [ -d /usr/share/luci/menu.d ] && [ -d /www/luci-static ]; }
