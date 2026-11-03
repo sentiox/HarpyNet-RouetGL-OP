@@ -26,10 +26,6 @@
       "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/luci-app-harpynet-2.0.4-r1.apk"
     },
     {
-      "name": "mihomo-SHA256SUMS",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-SHA256SUMS"
-    },
-    {
       "name": "mihomo-linux-386.gz",
       "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-linux-386.gz"
     },
@@ -50,11 +46,15 @@
       "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-linux-armv7.gz"
     },
     {
+      "name": "mihomo-SHA256SUMS",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-SHA256SUMS"
+    },
+    {
       "name": "mihomo-source.tar.gz",
       "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-source.tar.gz"
     }
   ],
-  "body": "# HarpyNet 2.0.4 — GL.iNet и OpenWrt/LuCI\n\nИсправлено обновление на роутерах с небольшим объёмом флеш-памяти, включая\nCudy WR3000H. Установщик больше не хранит два распакованных ядра одновременно.\nПеред заменой проверяется SHA-256 загрузки и сохраняется сжатая копия прежнего\nядра в /tmp/harpynet-mihomo-backup.gz. При ошибке записи прежнее ядро\nвосстанавливается. Резервная копия в оперативной памяти хранится до перезагрузки.\n\nНастоящая ошибка установки теперь сохраняется в статусе и журнале, а интерфейс\nне подменяет её сообщением «Доступна новая версия». Запуск обновления возвращает\nответ сразу, не ожидая завершения фоновой установки внутри RPC.\n\nИсправление совместимости Firefox 148 и X25519MLKEM768 из 2.0.3 сохранено.\nПодписка, режим маршрутизации и выбранный сервер сохраняются.",
+  "body": "# HarpyNet 2.0.4 — GL.iNet и OpenWrt/LuCI\r\n\r\nИсправлено подключение REALITY с Firefox и включённым X25519MLKEM768.\r\nШтатный Mihomo 1.19.33 использует Firefox 120, который не отправляет ML-KEM\r\nkey share. Теперь установщики обновляют его до совместимой сборки с Firefox 148\r\nи TLS-библиотекой из FlClashX 0.4.2. Отпечатки и ключи подписки не заменяются.\r\n\r\nЯдра собираются для arm64, armv7, armv6, amd64 и 386. Перед заменой проверяются\r\nSHA-256 и запуск бинарника; предыдущий бинарник сохраняется как\r\n/usr/bin/mihomo.harpynet-backup. Исходники сборки ядра прилагаются к релизу.\r\n\r\nПроверено на GL-MT6000: штатный Firefox + ML-KEM не подключается, Firefox 148\r\nс той же конфигурацией успешно проходит тест подключения. Выключение ML-KEM\r\nне устраняет проблему на проверенном сервере.\r\n\r\nПосле замены ядра все шесть серверов подписки прошли групповую проверку пинга.\r\nЧерез выбранные Нидерланды: Google generate_204 — HTTP 204, YouTube и\r\nCloudflare — HTTP 200. Настройки UCI совпадают с резервной копией, nftables активен.\r\nПроверены отказ при неверной SHA-256, сохранение прежнего бинарника и повторная\r\nустановка без лишней загрузки совместимого ядра.\r\n\r\nИсправлено обновление на роутерах с небольшим объёмом флеш-памяти, включая\r\nCudy WR3000H. Установщик больше не хранит два распакованных ядра одновременно.\r\nПеред заменой проверяется SHA-256 загрузки и сохраняется сжатая копия прежнего\r\nядра в /tmp/harpynet-mihomo-backup.gz. При ошибке записи прежнее ядро\r\nвосстанавливается. Резервная копия в оперативной памяти хранится до перезагрузки.\r\n\r\nНастоящая ошибка установки теперь сохраняется в статусе и журнале, а интерфейс\r\nне подменяет её сообщением «Доступна новая версия». Запуск обновления возвращает\r\nответ сразу, не ожидая завершения фоновой установки внутри RPC.\r\n\r\nИсправление совместимости Firefox 148 и X25519MLKEM768 из 2.0.3 сохранено.\r\nПодписка, режим маршрутизации и выбранный сервер сохраняются.\r",
   "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.4",
   "name": "v2.0.4",
   "published_at": "2026-11-03T00:14:17Z"
