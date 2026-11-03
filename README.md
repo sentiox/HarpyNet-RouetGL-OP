@@ -26,4 +26,8 @@ sh -c "$(wget -O - https://raw.githubusercontent.com/sentiox/HarpyNet-RouetGL-OP
 ```
 
 Mihomo is updated to the tested Firefox 148 / X25519MLKEM768 build when needed.
-The previous executable is kept as `/usr/bin/mihomo.harpynet-backup`.
+The previous executable is kept as `/tmp/harpynet-mihomo-backup.gz`.
+
+On devices with limited flash, the updater keeps one uncompressed core on flash.
+It verifies the download, saves a compressed rollback copy in RAM (until reboot),
+stops HarpyNet and replaces the core. A failed replacement restores the old core.

@@ -1,61 +1,61 @@
 {
-  "tag_name": "v2.0.3",
+  "tag_name": "v2.0.4",
   "assets": [
     {
-      "name": "harpynet-2.0.3-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-2.0.3-r1-all.ipk"
+      "name": "harpynet-2.0.4-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/harpynet-2.0.4-r1-all.ipk"
     },
     {
-      "name": "harpynet-2.0.3-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-2.0.3-r1.apk"
+      "name": "harpynet-2.0.4-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/harpynet-2.0.4-r1.apk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.3-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-gl-ui-2.0.3-r1-all.ipk"
+      "name": "harpynet-gl-ui-2.0.4-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/harpynet-gl-ui-2.0.4-r1-all.ipk"
     },
     {
-      "name": "harpynet-gl-ui-2.0.3-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/harpynet-gl-ui-2.0.3-r1.apk"
+      "name": "harpynet-gl-ui-2.0.4-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/harpynet-gl-ui-2.0.4-r1.apk"
     },
     {
-      "name": "luci-app-harpynet-2.0.3-r1-all.ipk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/luci-app-harpynet-2.0.3-r1-all.ipk"
+      "name": "luci-app-harpynet-2.0.4-r1-all.ipk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/luci-app-harpynet-2.0.4-r1-all.ipk"
     },
     {
-      "name": "luci-app-harpynet-2.0.3-r1.apk",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/luci-app-harpynet-2.0.3-r1.apk"
-    },
-    {
-      "name": "mihomo-linux-386.gz",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-386.gz"
-    },
-    {
-      "name": "mihomo-linux-amd64.gz",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-amd64.gz"
-    },
-    {
-      "name": "mihomo-linux-arm64.gz",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-arm64.gz"
-    },
-    {
-      "name": "mihomo-linux-armv6.gz",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-armv6.gz"
-    },
-    {
-      "name": "mihomo-linux-armv7.gz",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-linux-armv7.gz"
+      "name": "luci-app-harpynet-2.0.4-r1.apk",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/luci-app-harpynet-2.0.4-r1.apk"
     },
     {
       "name": "mihomo-SHA256SUMS",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-SHA256SUMS"
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-SHA256SUMS"
+    },
+    {
+      "name": "mihomo-linux-386.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-linux-386.gz"
+    },
+    {
+      "name": "mihomo-linux-amd64.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-linux-amd64.gz"
+    },
+    {
+      "name": "mihomo-linux-arm64.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-linux-arm64.gz"
+    },
+    {
+      "name": "mihomo-linux-armv6.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-linux-armv6.gz"
+    },
+    {
+      "name": "mihomo-linux-armv7.gz",
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-linux-armv7.gz"
     },
     {
       "name": "mihomo-source.tar.gz",
-      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.3/mihomo-source.tar.gz"
+      "browser_download_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/download/v2.0.4/mihomo-source.tar.gz"
     }
   ],
-  "body": "# HarpyNet 2.0.3\n\nИсправлено подключение REALITY с Firefox и включённым X25519MLKEM768.\nШтатный Mihomo 1.19.33 использует Firefox 120, который не отправляет ML-KEM\nkey share. Теперь установщики обновляют его до совместимой сборки с Firefox 148\nи TLS-библиотекой из FlClashX 0.4.2. Отпечатки и ключи подписки не заменяются.\n\nЯдра собираются для arm64, armv7, armv6, amd64 и 386. Перед заменой проверяются\nSHA-256 и запуск бинарника; предыдущий бинарник сохраняется как\n/usr/bin/mihomo.harpynet-backup. Исходники сборки ядра прилагаются к релизу.\n\nПроверено на GL-MT6000: штатный Firefox + ML-KEM не подключается, Firefox 148\nс той же конфигурацией успешно проходит тест подключения. Выключение ML-KEM\nне устраняет проблему на проверенном сервере.\n\nПосле замены ядра все шесть серверов подписки прошли групповую проверку пинга.\nЧерез выбранные Нидерланды: Google generate_204 — HTTP 204, YouTube и\nCloudflare — HTTP 200. Настройки UCI совпадают с резервной копией, nftables активен.\nПроверены отказ при неверной SHA-256, сохранение прежнего бинарника и повторная\nустановка без лишней загрузки совместимого ядра.",
-  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.3",
-  "name": "v2.0.3",
-  "published_at": "2026-11-02T23:46:33Z"
+  "body": "# HarpyNet 2.0.4 — GL.iNet и OpenWrt/LuCI\n\nИсправлено обновление на роутерах с небольшим объёмом флеш-памяти, включая\nCudy WR3000H. Установщик больше не хранит два распакованных ядра одновременно.\nПеред заменой проверяется SHA-256 загрузки и сохраняется сжатая копия прежнего\nядра в /tmp/harpynet-mihomo-backup.gz. При ошибке записи прежнее ядро\nвосстанавливается. Резервная копия в оперативной памяти хранится до перезагрузки.\n\nНастоящая ошибка установки теперь сохраняется в статусе и журнале, а интерфейс\nне подменяет её сообщением «Доступна новая версия». Запуск обновления возвращает\nответ сразу, не ожидая завершения фоновой установки внутри RPC.\n\nИсправление совместимости Firefox 148 и X25519MLKEM768 из 2.0.3 сохранено.\nПодписка, режим маршрутизации и выбранный сервер сохраняются.",
+  "html_url": "https://github.com/sentiox/HarpyNet-RouetGL-OP/releases/tag/v2.0.4",
+  "name": "v2.0.4",
+  "published_at": "2026-11-03T00:14:17Z"
 }
